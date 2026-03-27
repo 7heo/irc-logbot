@@ -7,7 +7,7 @@ import (
 )
 
 func getFileName(channel string) string {
-	return fmt.Sprintf("logs/%s-%d-%d-%d.txt", channel, time.Now().Year(), time.Now().Month(), time.Now().Day())
+	return time.Now().Format(fmt.Sprintf("logs/%s-2006-01-02.txt", channel))
 }
 
 func openFile(fileName string) (*os.File, error) {

@@ -16,6 +16,8 @@ func main() {
 	nicknamePtr := flag.String("nickname", "", "Nickname for the bot")
 	channelPtr := flag.String("channels", "", "Comma-separated list of channels to join")
 	fileNamePtr := flag.String("file", "log", "File name prefix for logging")
+	sslPtr := flag.Bool("ssl", false, "Use SSL")
+	allowInsecurePtr := flag.Bool("allow-insecure", false, "Allow insecure SSL")
 
 	// Parse flags
 	flag.Parse()
@@ -32,11 +34,13 @@ func main() {
 	nickname := *nicknamePtr
 	channelsStr := *channelPtr                  // Channels string separated by comma
 	channels := strings.Split(channelsStr, ",") // Splitting the string into a slice
+	ssl := *sslPtr
+	allowInsecure := *allowInsecurePtr
 
 	// Create client with specified options
 	client := client.Create(server, port, nickname, client.ClientOptions{
 		Channels: channels,
-	})
+	}, ssl, allowInsecure)
 
 	fmt.Println("Connecting to server...")
 	err := client.Connect()

@@ -47,8 +47,8 @@ func handleEvents(client *client.Client, eventLogger *logger.EventLogger) {
 	})
 }
 
-func FromClient(client *client.Client, fileName string) {
-	eventLogger, err := logger.CreateEventLogger(fileName)
+func FromClient(client *client.Client, fileName string, timeFmt string) {
+	eventLogger, err := logger.CreateEventLogger(fileName, timeFmt)
 	if err != nil {
 		panic(err)
 	}

@@ -21,9 +21,10 @@ func openFile(fileName string) (*os.File, error) {
 
 type EventLogger struct {
 	file *os.File
+	timeFmt string
 }
 
-func CreateEventLogger(channel string) (*EventLogger, error) {
+func CreateEventLogger(channel string, timeFmt string) (*EventLogger, error) {
 	fileName := getFileName(channel)
 	file, err := openFile(fileName)
 
@@ -33,13 +34,14 @@ func CreateEventLogger(channel string) (*EventLogger, error) {
 
 	eventLogger := &EventLogger{
 		file: file,
+		timeFmt: timeFmt,
 	}
 
 	return eventLogger, nil
 }
 
 func (eventLogger *EventLogger) LogEvent(channel, message string) error {
-	_, err := eventLogger.file.WriteString(fmt.Sprintf("%s: %s\n", time.Now().Format(time.Kitchen), message))
+	_, err := eventLogger.file.WriteString(fmt.Sprintf("%s: %s\n", time.Now().Format(eventLogger.timeFmt), message))
 	if err != nil {
 		return err
 	}
